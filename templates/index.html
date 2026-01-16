@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Rock Paper Scissors</h1>
+
+        <!-- Score Display -->
+        <div class="score-board">
+            <p>👤 You: <span id="player-score">0</span></p>
+            <p>🖥️ Computer: <span id="computer-score">0</span></p>
+        </div>
+
+        <!-- Game Choices -->
+        <div class="choices">
+            <button onclick="playGame('rock')">🪨 Rock</button>
+            <button onclick="playGame('paper')">📄 Paper</button>
+            <button onclick="playGame('scissors')">✂️ Scissors</button>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="reset-btn">
+            <button onclick="resetScore()">🔄 Reset Score</button>
+        </div>
+
+        <!-- Result Display -->
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function playGame(choice) {
+            fetch('/play', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ choice: choice })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('result').innerHTML =
+                    `<p>You chose: <strong>${data.user}</strong></p>
+                     <p>Computer chose: <strong>${data.computer}</strong></p>
+                     <h2>${data.result}</h2>`;
+
+                document.getElementById('player-score').textContent = data.player_score;
+                document.getElementById('computer-score').textContent = data.computer_score;
+            });
+        }
+
+        function resetScore() {
+            fetch('/reset', { method: 'POST' })
+            .then(() => {
+                document.getElementById('player-score').textContent = '0';
+                document.getElementById('computer-score').textContent = '0';
+                document.getElementById('result').innerHTML = '';
+            });
+        }
+    </script>
+</body>
+</html>
