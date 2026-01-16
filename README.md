@@ -1,0 +1,2 @@
+Rock Paper Scissors is a simple game developed using Python where the user plays against the computer. The computer randomly selects Rock, Paper, or Scissors, and the user enters their choice. Based on the game rules, the program determines whether the user wins, loses, or draws. The game can also keep track of scores for multiple rounds. This project helps in understanding Python basics such as conditional statements, loops, random module usage, and user input handling.
+
